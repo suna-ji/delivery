@@ -5,7 +5,8 @@ public enum ErrorCode {
     REQUIRED_FIELD_EMPTY(1000),
 
     // User
-    PASSWORD_PATTERN_NOT_MATCH(2000);
+    PASSWORD_PATTERN_NOT_MATCH(2000),
+    LOGIN_FAIL(2001);
 
 
 

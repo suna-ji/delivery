@@ -125,6 +125,28 @@ public class BaseRestController {
     }
 
 
+    /**
+     * 로그인 실패
+     * @param object
+     * @param errors
+     * @return
+     */
+    protected ResponseEntity<List<String>> login(Object object, Errors errors) {
+        return error(object, errors);
+    }
+
+    /**
+     * 로그인 성공
+     * @param object
+     * @return
+     */
+    protected ResponseEntity<Object> login(Object object) {
+        if (object == null) {
+            return new ResponseEntity<Object>(HttpStatus.NOT_FOUND); // 404
+        }
+        return new ResponseEntity<Object>(object, HttpStatus.OK); // 200
+    }
+
     private ResponseEntity<List<String>> error(Object object, Errors errors) {
         List<String> errorMessages = new ArrayList<String>();
         for (FieldError fieldError : errors.getFieldErrors()) {
