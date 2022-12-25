@@ -11,7 +11,11 @@ public enum ErrorCode {
 
     // Delivery
     FROM_DATE_IS_NOT_BEFORE_THE_TO_DATE(3000),
-    DELIVERY_SEARCH_PERIOD_HAS_EXCEEDED_3_DAYS(3001);
+    DELIVERY_SEARCH_PERIOD_HAS_EXCEEDED_3_DAYS(3001),
+    FAIL_TO_MODIFY_DELIVERY(3002),
+
+    // DORO
+    INVALID_ADDRESS(4000);
 
     private final Integer errorCode;
 

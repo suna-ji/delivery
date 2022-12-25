@@ -12,5 +12,7 @@ public interface DeliveryMapper {
 
     List<Delivery> selectDeliveryByDate(DeliverySearchOption searchOption);
 
+    Delivery selectById(Integer deliveryId);
+
     int update(Delivery delivery);
 }

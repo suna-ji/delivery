@@ -1,11 +1,16 @@
 package com.example.delivery.validator;
 
+import com.example.delivery.dto.Delivery;
+import com.example.delivery.dto.Doro;
 import com.example.delivery.dto.searchoption.DeliverySearchOption;
 import com.example.delivery.exception.ErrorCode;
+import com.example.delivery.mapper.DeliveryMapper;
+import com.example.delivery.mapper.DoroMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -19,6 +24,8 @@ public class DeliveryValidator implements Validator {
 
     private final DeliveryValidatorUtils deliveryValidatorUtils;
     private final MessageSource messageSource;
+    private final DeliveryMapper deliveryMapper;
+    private final DoroMapper doroMapper;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -49,5 +56,26 @@ public class DeliveryValidator implements Validator {
         if (diffDays > 3) {
             errors.rejectValue("fromDateTime", ErrorCode.DELIVERY_SEARCH_PERIOD_HAS_EXCEEDED_3_DAYS.toString(), null, messageSource.getMessage(String.valueOf(ErrorCode.DELIVERY_SEARCH_PERIOD_HAS_EXCEEDED_3_DAYS.getErrorCode()), null, Locale.getDefault()));
         }
+    }
+
+    public Errors validateModify(Integer deliveryId, Doro doro) {
+        // 배달 상태가 READY인지 확인
+        Delivery delivery = deliveryMapper.selectById(deliveryId);
+        if (delivery.getStatus() == null || !delivery.getStatus().equals("READY")) {
+            Delivery city = Delivery.builder()
+                    .deliveryId(deliveryId)
+                    .build();
+            Errors errors = new BeanPropertyBindingResult(delivery, "delivery");
+            errors.rejectValue("status", ErrorCode.FAIL_TO_MODIFY_DELIVERY.toString(), null, messageSource.getMessage(String.valueOf(ErrorCode.FAIL_TO_MODIFY_DELIVERY.getErrorCode()), null, Locale.getDefault()));
+            return errors;
+        }
+        // 도로명 주소가 올바른지 확인
+        Integer doroId = doroMapper.selectDoroId(doro.getSidoId(), doro.getSigunguId(), doro.getDoroNameId(), doro.getBuildingNumber());
+        if (doroId == null) {
+            Errors errors = new BeanPropertyBindingResult(doro, "doro");
+            errors.rejectValue("doroId", ErrorCode.FAIL_TO_MODIFY_DELIVERY.toString(), null, messageSource.getMessage(String.valueOf(ErrorCode.FAIL_TO_MODIFY_DELIVERY.getErrorCode()), null, Locale.getDefault()));
+            return errors;
+        }
+        return null;
     }
 }

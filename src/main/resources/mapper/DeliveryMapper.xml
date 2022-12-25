@@ -19,14 +19,18 @@
         ORDER BY insert_date_time
     </select>
 
+    <select id="selectById" resultMap="delivery">
+        SELECT *
+          FROM BG_DELIVERY
+         WHERE delivery_id = #{deliveryId}
+    </select>
+
 
     <update id="update">
-        UPDATE BG_USER
-        SET <if test="userId != null"> user_id = #{userId}, </if>
-        <if test="userName != null"> user_name = #{cityName}, </if>
-        <if test="password != null"> password = #{password}, </if>
-        update_date_time = CURRENT_TIMESTAMP
-        WHERE user_id = #{userId}
+        UPDATE BG_DELIVERY
+           SET <if test="doroId != null"> doro_id = #{doroId}, </if>
+               update_date_time = CURRENT_TIMESTAMP
+        WHERE delivery_id = #{deliveryId}
     </update>
 
 </mapper>
