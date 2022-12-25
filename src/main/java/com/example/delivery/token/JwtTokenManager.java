@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -63,13 +64,9 @@ public class JwtTokenManager {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
 
-        Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get("auth").toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
 
-        UserDetails principal = new User(claims.getSubject(), "", authorities);
-        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+        UserDetails principal = new User(claims.getSubject(), "", Collections.emptyList());
+        return new UsernamePasswordAuthenticationToken(principal, "", Collections.emptyList());
     }
 
     public boolean validateToken(String token) {

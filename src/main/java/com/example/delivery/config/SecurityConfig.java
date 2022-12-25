@@ -39,11 +39,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers("/h2-console/*").permitAll();
 
-        http.csrf().disable();
+        http
+                .httpBasic().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/user/login").permitAll()
+                .antMatchers("/user").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
-        http.headers().frameOptions().disable();
 
-        http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override

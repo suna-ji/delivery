@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.delivery.mapper.DeliveryMapper">
+
+    <resultMap type="com.example.delivery.dto.Delivery" id="delivery">
+        <id column="delivery_id"              property="deliveryId" />
+        <result column="user_id"              property="userId" />
+        <result column="doro_id"              property="doroId" />
+        <result column="insert_date_time"     property="insertDateTime" />
+        <result column="update_date_time"     property="updateDateTime" />
+        <result column="status"               property="status" />
+    </resultMap>
+
+    <select id="selectDeliveryByDate" resultMap="delivery">
+       SELECT *
+         FROM BG_DELIVERY
+        WHERE USER_ID = #{userId} AND
+              #{toDateTime} >= insert_date_time AND insert_date_time >= #{fromDateTime}
+        ORDER BY insert_date_time
+    </select>
+
+
+    <update id="update">
+        UPDATE BG_USER
+        SET <if test="userId != null"> user_id = #{userId}, </if>
+        <if test="userName != null"> user_name = #{cityName}, </if>
+        <if test="password != null"> password = #{password}, </if>
+        update_date_time = CURRENT_TIMESTAMP
+        WHERE user_id = #{userId}
+    </update>
+
+</mapper>

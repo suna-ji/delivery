@@ -8,10 +8,11 @@ import java.sql.Timestamp;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Delivery {
+    private Integer deliveryId;
     private String userId;
-    private String userName;
-    private String password;
+    private Integer doroId;
     private Timestamp insertDateTime;
     private Timestamp updateDateTime;
+    private String status;
 }
