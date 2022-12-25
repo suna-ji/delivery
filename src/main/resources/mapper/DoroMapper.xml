@@ -13,7 +13,7 @@
     <select id="selectDoroId" resultType="Integer">
         SELECT doro_id
           FROM BG_DORO
-         WHERE sido_id = #[sidoId}
+         WHERE sido_id = #{sidoId}
            AND sigungu_id = #{sigunguId}
            AND doro_name_id = #{doroNameId}
            AND building_number = #{buildingNumber};

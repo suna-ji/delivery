@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface DoroMapper {
 
-    int selectDoroId(@Param("sidoId") Integer sidoId, @Param("sigunguId") Integer sigunguId, @Param("doroNameId") Integer doroNameId, @Param("buildingNumber") Integer buildingNumber);
+    Integer selectDoroId(@Param("sidoId") Integer sidoId, @Param("sigunguId") Integer sigunguId, @Param("doroNameId") Integer doroNameId, @Param("buildingNumber") Integer buildingNumber);
 }

@@ -73,7 +73,7 @@ public class DeliveryValidator implements Validator {
         Integer doroId = doroMapper.selectDoroId(doro.getSidoId(), doro.getSigunguId(), doro.getDoroNameId(), doro.getBuildingNumber());
         if (doroId == null) {
             Errors errors = new BeanPropertyBindingResult(doro, "doro");
-            errors.rejectValue("doroId", ErrorCode.FAIL_TO_MODIFY_DELIVERY.toString(), null, messageSource.getMessage(String.valueOf(ErrorCode.FAIL_TO_MODIFY_DELIVERY.getErrorCode()), null, Locale.getDefault()));
+            errors.rejectValue("doroId", ErrorCode.INVALID_ADDRESS.toString(), null, messageSource.getMessage(String.valueOf(ErrorCode.INVALID_ADDRESS.getErrorCode()), null, Locale.getDefault()));
             return errors;
         }
         return null;
